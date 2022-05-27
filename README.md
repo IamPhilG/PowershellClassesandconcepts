@@ -1,5 +1,42 @@
 # Powershell Classes and concepts by Michael Willis
 
+# Table of content
+* [Introduction](#id-Introduction)
+* [Syntax Overview](#id-SyntaxOverview)
+  * [Class Structure](#id-ClassStructure)
+    * [Classes](#id-Classes)
+    * [Properties](#id-Properties)
+    * [Methods](#id-Methods)
+    * [$this](#id-$this)
+    * [Constructor](#id-Constructor)
+    * [ToString](#id-ToString)
+    * [Example 1: Class Structure](#id-Example1)
+  * [Creating instances of a class](#id-Creatinginstancesofaclass)
+  * [Static vs. Instance](#id-StaticvsInstance)
+    * [Static](#id-Static)
+    * [Instance](#id-Instance)
+  * [Accessors/Mutators aka Getter/Setter](#id-Accessors)
+  * [Overloaded Methods](#id-Overloaded)
+  * [Inheritance](#id-Inheritance)
+  * [Using the Base Constructor](#id-UsingBaseConstructor)
+  * [Enumerations](#id-Enumerations)
+* [Design Patterns](#id-Design)
+  * [Polymorphism](#id-Polymorphism)
+  * [Abstract Classes](#id-AbstractClasses)
+  * [Singleton](#id-Singleton)
+  * [Factory Pattern](#id-FactoryPattern)
+    * [Standard Factory Object Generation](#id-StandardFactoryObjectGeneration)
+    * [Using Static Methods to Set/Fetch Objects](#id-UsingStaticMethods)
+  * [Method Chaining](#id-MethodChaining)
+  * [Base Splat Pattern](#id-BaseSplatPattern)
+    * [Using object properties to Splat a function](#id-UsingobjectpropertiestoSplata function)
+    * [Using Base Helper to Generate Splat HashTable](#id-UsingBaseHelpertoGenerateSplatHashTable)
+  * [Loading Class Files](#id-LoadingClassFiles)
+    * [Possible Workarounds](#id-PossibleWorkarounds)
+* [Conclusion](#id-Conclusion)
+* [References](#id-References)
+
+<div id='id-Introduction'/>
 # Introduction
 
 Developers new to PowerShell, often find themselves looking for better design patterns to keep code clean and manageable. Since PowerShell is a functional language, it felt worthwhile to experiment with modern design patterns commonly seen in languages like **JavaScript**. One example of this is ````closures````. Keep in mind, treating PowerShell like JavaScript is a recipe for a hard time – albeit an entertaining challenge.
@@ -35,13 +72,15 @@ Huge thanks go out to **June Blender** for her section on MVA(Microsoft Virtual 
   * **Steven Murawski** from Chef provides an exceptional collection of resources.
 * Class-based resouces requires some workarounds.
   * **Doug Finke** and **Christopher Hunt** provide a few articles on the caveats.
+
+<div id='id-SyntaxOverview'/>
 # Syntax Overview
+<div id='id-ClassStructure'/>
 ## Class Structure
 
 The following is an overview of Object-Oriented Programming and Class syntax in WMF5.
-
+<div id='id-Classes'/>
 #### Classes
-
 We can think of ````Classes```` as models or blueprints. To use a Class, we create a special *Type* of variable known as an **Object**; an *Object* is an **instance** of a Class. 
 
 Think of a class as a way to create a specification of variables, functions, and other properties (e.g. a template). Now to use this model, we must create an instance of the specification (object). Similarly, this is the same idea where a contractor can use a blueprint to build multiple houses. Once created, an object has access to **properties** and **methods** defined by its class.
