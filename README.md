@@ -7,7 +7,7 @@
     * [Classes](#id-Classes)
     * [Properties](#id-Properties)
     * [Methods](#id-Methods)
-    * [$this](#id-$this)
+    * [$this](#id-this)
     * [Constructor](#id-Constructor)
     * [ToString](#id-ToString)
     * [Example 1: Class Structure](#id-Example1)
@@ -29,15 +29,15 @@
     * [Using Static Methods to Set/Fetch Objects](#id-UsingStaticMethods)
   * [Method Chaining](#id-MethodChaining)
   * [Base Splat Pattern](#id-BaseSplatPattern)
-    * [Using object properties to Splat a function](#id-UsingobjectpropertiestoSplata function)
+    * [Using object properties to Splat a function](#id-UsingobjectpropertiestoSplatafunction)
     * [Using Base Helper to Generate Splat HashTable](#id-UsingBaseHelpertoGenerateSplatHashTable)
   * [Loading Class Files](#id-LoadingClassFiles)
     * [Possible Workarounds](#id-PossibleWorkarounds)
 * [Conclusion](#id-Conclusion)
 * [References](#id-References)
 
-<div id='id-Introduction'/>
-# Introduction
+
+# Introduction <div id='id-Introduction'/>
 
 Developers new to PowerShell, often find themselves looking for better design patterns to keep code clean and manageable. Since PowerShell is a functional language, it felt worthwhile to experiment with modern design patterns commonly seen in languages like **JavaScript**. One example of this is ````closures````. Keep in mind, treating PowerShell like JavaScript is a recipe for a hard time – albeit an entertaining challenge.
 
@@ -73,14 +73,13 @@ Huge thanks go out to **June Blender** for her section on MVA(Microsoft Virtual 
 * Class-based resouces requires some workarounds.
   * **Doug Finke** and **Christopher Hunt** provide a few articles on the caveats.
 
-<div id='id-SyntaxOverview'/>
-# Syntax Overview
-<div id='id-ClassStructure'/>
-## Class Structure
+
+# Syntax Overview <div id='id-SyntaxOverview'/>
+## Class Structure <div id='id-ClassStructure'/>
 
 The following is an overview of Object-Oriented Programming and Class syntax in WMF5.
-<div id='id-Classes'/>
-#### Classes
+
+#### Classes <div id='id-Classes'/>
 We can think of ````Classes```` as models or blueprints. To use a Class, we create a special *Type* of variable known as an **Object**; an *Object* is an **instance** of a Class. 
 
 Think of a class as a way to create a specification of variables, functions, and other properties (e.g. a template). Now to use this model, we must create an instance of the specification (object). Similarly, this is the same idea where a contractor can use a blueprint to build multiple houses. Once created, an object has access to **properties** and **methods** defined by its class.
@@ -92,7 +91,7 @@ class CyberNinja
 }
 ````
 
-#### Properties
+#### Properties <div id='id-Properties'/>
 ````Properties```` are a special type of class member which define a **field** (data variable) as well as hidden methods to *get* and *set* the value.
 
 A **Property** is composed of a ````data type````, ````name````, ````default value````, ````access modifier````, and ````non-access modifier````.
@@ -120,7 +119,7 @@ hidden [String] $RealName
 ````
 > Note: More on Access Modifiers below.
 
-#### Methods
+#### Methods <div id='id-Methods'/>
 The term ````Method```` is a fancy way of describing a function defined inside of a class. In OOP (Object-Oriented Programming), a method can take arguments the same as a function; however, they must return a value.
 * If a method **does not** return a value, the return type is ````[Void]````.
 * A **data type** should be type-hinted for each argument in the method header, e.g., ````[String] $Name````.
@@ -149,7 +148,7 @@ static [String] Whisper ([String] $Name)
 }
 ````
  
-#### $this
+#### $this <div id='id-this'/>
  
 The ````$this```` variable describes the **current instance** of the object. It is thought of like ````$_```` for classes.
 * If a property is not static, the syntax ````$this.PropertyName```` is used to reference the instance property.
@@ -157,7 +156,7 @@ The ````$this```` variable describes the **current instance** of the object. It 
  
 > Note: A static method cannot use $this.
  
-#### Constructor
+#### Constructor <div id='id-Constructor'/>
  A ````Constructor```` is a type of method that is called only when an object is created.
  * A constructor **must** use the same name as the class.
  
@@ -177,7 +176,7 @@ class CyberNinja
 }
 ````
 
-#### ToString
+#### ToString <div id='id-ToString'/>
 ````ToString```` is one of the convenient object methods seen in traditional OOP. If an object is passed to a function which accepts a string argument, **ToString** will automatically be called.
 * If ToString is not added/overwritten in the class, the default *ToString* method returns the class name.
 * The default object behavior can be forced by casting the object to ````[System.Object]````.
@@ -211,7 +210,7 @@ PS C:\> Write-Host ([System.Object]$red).ToString()
 myColor
 ````
  
-#### Example 1: Class Structure
+#### Example 1: Class Structure <div id='id-Example1'/>
 The following code is a simple example of a basic class. Next, we look at how to use a class and continue with some more advanced concepts.
 
 ````PowerShell
@@ -259,7 +258,7 @@ class CyberNinja
 }
 ````
  
-## Creating instances of a class
+## Creating instances of a class <div id='id-Creatinginstancesofaclass'/>
 To use a class, we must **instantiate** an object unless using static properties or methods. Most commonly, this is done using the ````new()```` static method or the **New-Object Command**. In some cases, such as creating classes dynamically by type, the *New-Object* command is necessary.
  
 ````PowerShell
@@ -286,14 +285,14 @@ When considering code design, it is common to declare the object type explicitly
 PS C:\> [CyberNinja] $Ken = [CyberNinja]::new("Ken", 28)
 ````
  
-## Static vs. Instance
+## Static vs. Instance <div id='id-StaticvsInstance'/>
 The keyword ````static```` is a **non-access modifier** for properties and methods within a class.
 * For **properties**, the value is the same across every instance of the class.
 * For **methods**, the method cannot use instanced variables such as ````$this.Name````
 
 Looking back at *Example 1*, if we create ten *CyberNinja* objects and change the **$Clan** property of any one of them, the change will be reflected in *every single Object*.
 
-#### Static
+#### Static <div id='id-Static'/>
 * Uses the ````::```` operator to access the property or method.
 * Typically called using ````[Class]::Property````, where “Class” is the name of the class.
  
@@ -313,7 +312,7 @@ $Ken::Clan = "DevOps Library"
 [CyberNinja]::Clan = "DevOps Library"
 ````
 
-#### Instance
+#### Instance <div id='id-Instance'/>
 * Uses the ````.```` operator to access the property or method.
 * Must be called on an instanced object of a class – not directly.
 
@@ -330,7 +329,7 @@ $Ken.HitPoints
 $Ken.Alias = "Mekuto"
 ````
  
-## Accessors/Mutators aka Getter/Setter
+## Accessors/Mutators aka Getter/Setter <div id='id-Accessors'/>
  
 Properties in a PowerShell class can be ````static````, ````public````, and ````hidden````.
 * By default, a property is **public**.
@@ -414,7 +413,7 @@ RealName      Property     string RealName {get;set;}
 [Math] | Get-Member -Force
 ````
  
-## Overloaded Methods
+## Overloaded Methods <div id='id-Overloaded'/>
 ````Method Overloading```` is a way to define multiple methods with the same name. Overloaded methods behave differently depending on **the number of arguments** or the **data types of the arguments** supplied. In the following code example, ````SayHello()```` and ````add()```` can be called different ways.
  
 ````PowerShell
@@ -484,7 +483,7 @@ PS C:\> [OverloadRefactor]::SayHello("Mike")
 Hello Mike!
 ````
  
-## Inheritance
+## Inheritance <div id='id-Inheritance'/>
 ````Inheritance```` allows for programmers to create classes from existing classes by **extending** them. In this way, we can reuse classes and extend the functionality without editing a closed class. \*cough SOLID\* When a class is **extended**, all of the members from the base or parent class are inherited (passed on) to the child class.
 * To extend a class, use the syntax ````Class Child : Parent````.
 
@@ -521,7 +520,7 @@ Message: Hello!
  
 > Note: To override this behavior, we must **redeclare** the members in the child class.
  
-## Using the Base Constructor
+## Using the Base Constructor <div id='id-UsingBaseConstructor'/>
 A child class can call the constructor of its parent by using the ````: base()```` command on its constructor.
  
 ````PowerShell
@@ -562,7 +561,7 @@ PS C:\> $mainScreen.TurnOn()
 CATS : All your base are belong to us.
 ````
  
-## Enumerations
+## Enumerations <div id='id-Enumerations'/>
 An `````Enum````` is a special *Type* which defines a set of named constants. In PowerShell, we can use an **Enum** as an argument type for a method in a *Class*. The Enum type lets a method **restrict** the argument values it can accept.
  
 ````PowerShell
@@ -593,8 +592,8 @@ To get int values from an enum
 PS C:\> [System.Enum]::GetValues([Turtles]) | foreach { [int] $_ }
 ````
  
-# Design Patterns
-## Polymorphism
+# Design Patterns <div id='id-Design'/>
+## Polymorphism <div id='id-Polymorphism'/>
 ````Polymorphism```` commonly uses a **parent class** to reference a **child class**. In more advanced cases we rely on *interfaces*. However, interfaces are not included natively in PowerShell v5.
 
 Using classes to demonstrate polymorphism is straightforward as seen in the next example.
@@ -658,7 +657,7 @@ Bar Success
 Bar2 Success
 ````
 While this may work in some cases, we may decide that the logic for ````WriteMessage()```` should not be in the base class. If we had interfaces, this feat would be simple enough. Since we do not, this brings us to the next pattern: *Abstract Classes*.
-## Abstract Classes
+## Abstract Classes <div id='id-AbstractClasses'/>
 An ````Abstract Class```` is similar to a combination of an **Interface** and a **Class**. It can be used to define the underlying contract required by any class extending it.
 * In OOP a class which extends an abstract class **should implement** all of the defined methods, similar to an interface.
 * Additionally, we **cannot** create an instance of an abstract class.
@@ -699,7 +698,7 @@ class Bar : Foo
 }
 ````
 
-## Singleton
+## Singleton <div id='id-Singleton'/>
 The ````Singleton```` design pattern used to restrict the instantiation of a *Class* to **one object only**. Many other design patterns require a singleton implementation.
 
 Typically, we want to use a singleton when:
@@ -740,7 +739,7 @@ Highlander
 ````
 
 > There can be only one!
-## Factory Pattern
+## Factory Pattern <div id='id-FactoryPattern'/>
 The ````Factory Pattern```` considered a **creational pattern**, is by far one of the most valuable models. It lets us create objects, though a common factory interface, _without_ needing to reference an exact class. This pattern also allows for the creation of objects without exposing the underlying creation logic.
 
 > Note: The following example builds on my earlier concepts on abstract classes.
@@ -840,7 +839,7 @@ class DrinkFactory
     }
 }
 ````
-#### Standard Factory Object Generation
+#### Standard Factory Object Generation <div id='id-StandardFactoryObjectGeneration'/>
 ````
 PS C:\> [DrinkFactory] $DrinkFactory = [DrinkFactory]::new()
 
@@ -859,7 +858,7 @@ Popped the tab on a can of: Monster
 PS C:\> $Beverage3.Open()
 Twisted the top of a bottle of: Coke
 ````
-#### Using Static Methods to Set/Fetch Objects
+#### Using Static Methods to Set/Fetch Objects <div id='id-UsingStaticMethods'/>
 ````
 PS C:\> [DrinkFactory]::Drinks = @(
             [EneryDrink]::new("RedBull", 28),
@@ -881,7 +880,7 @@ Name Caffeine
 ---- --------
 Coke       24
 ````
-## Method Chaining
+## Method Chaining <div id='id-MethodChaining'/>
 ````Method chaining```` is a popular design pattern in languages such as _JavaScript_ and _PHP_. Traditionally, in functional languages, functions or constructors required large numbers of positional arguments. Method chaining gives us a way to create an object and set these values in a maintainable and readable fashion.
 
 This pattern is also known as the **named parameter idiom**. To create this pattern:
@@ -993,13 +992,13 @@ cls
    | %{$_.placeOrder()}
 ````
 
-## Base Splat Pattern
+## Base Splat Pattern <div id='id-BaseSplatPattern'/>
 While this may not be a traditional class design pattern, I created this pattern to simply **using object properties** with other PowerShell commands.
 
 Calling a function with many positional arguments OR many named Parameters can become difficult to manage.
 
 To solve this issue, we use a technique known as **Splatting**.
-#### Using object properties to Splat a function
+#### Using object properties to Splat a function <div id='id-UsingobjectpropertiestoSplatafunction'/>
 ````PowerShell
 class Concept
 {
@@ -1027,7 +1026,7 @@ $parms = @{
 
 Get-Meaning @parms
 ````
-#### Using Base Helper to Generate Splat HashTable
+#### Using Base Helper to Generate Splat HashTable <div id='id-UsingBaseHelpertoGenerateSplatHashTable'/>
 ````PowerShell
 class Helper
 {
@@ -1074,7 +1073,7 @@ PS C:\> $splat = $concept.Splat(("Name", "Answer"))
 PS C:\> Get-Meaning @splat
 The meaning of Life is 42.
 ````
-## Loading Class Files
+## Loading Class Files <div id='id-LoadingClassFiles'/>
 Currently, there are some **restrictions** for loading class files.
 * Parent classes **must** load before their children.
 
@@ -1099,14 +1098,14 @@ foreach($import in $Public)
 
 Export-ModuleMember -Function $Public.Basename
 ````
-#### Possible Workarounds
+#### Possible Workarounds <div id='id-PossibleWorkarounds'/>
 * Class/child class naming conventions which force alphabetic ordering precedence.
 * Recursive try/catch until all of the classes load.
 * Manually define the order and files in the module manifest.
 * Use a lower level directory structure for child classes.
-# Conclusion
+# Conclusion <div id='id-Conclusion'/>
 The PowerShell language is steadily evolving, which in turn adapts developer methodologies. People are amazing at taking a great invention and using it for entirely new ideas. Perhaps this is one of the reasons open source thrives. Take Play-Doh for example, Noah McVicker invented this goop as a wallpaper cleaner in the 1930s, around 20 years later it became a children’s toy. Hopefully, this article helps others learn PowerShell class syntax, OOP concepts, design patterns and explore new ideas.
-# References
+# References <div id='id-References'/>
 1. [Xainey powershell-classes-and-concepts](https://xainey.github.io/2016/powershell-classes-and-concepts/)
 2. [Five Tips for Writing DSC Resources](https://hodgkins.io/five-tips-for-writing-dsc-resources-in-powershell-version-5)
 3. [What’s new in PowerShell Version 5](https://mva.microsoft.com/en-US/training-courses/whats-new-in-powershell-v5-16434)
