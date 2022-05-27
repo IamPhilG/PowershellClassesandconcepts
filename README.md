@@ -1,4 +1,4 @@
-# Powershell Classes and concepts
+# Powershell Classes and concepts by Michael Willis
 
 # Introduction
 
