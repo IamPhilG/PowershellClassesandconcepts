@@ -1,4 +1,4 @@
-# PowershellClassesandconcepts
+# Powershell Classes and concepts
 
 # Introduction
 
